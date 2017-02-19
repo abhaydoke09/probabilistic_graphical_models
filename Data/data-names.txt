@@ -1,0 +1,9 @@
+1.  A       Age           age in years
+2.  G       Gender        1 = male; 0 = female
+3.  CP      ChestPain     (typical angina,atypical angina,non-anginal pain,asymptomatic)
+4.  BP      BloodPressue  (trestbps) resting blood pressure
+5.  Chol    Cholestoral
+7.  ECG     Electrocardiograph (normal, ST-T wave abnormality, ventricular hypertrophy)
+8.  HR      HeartRate
+9.  EIA     Exercise Induced Angina (1 = yes; 0 = no)
+14. HD      HeartDisease            (1=yes; 0=no)

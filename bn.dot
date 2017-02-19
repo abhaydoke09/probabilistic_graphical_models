@@ -1,0 +1,13 @@
+digraph G {
+	node[fontname="Times",fontsize="20.0"];
+	G -> CH;
+	G -> BP;
+	A -> CH;
+	A -> HR;
+	CH -> HD;
+	BP -> HD;
+	HD -> CP;
+	HD -> EIA;
+	HD -> ECG;
+	HD -> HR;
+}

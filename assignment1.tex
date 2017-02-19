@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+
+
+\usepackage{fullpage}
+\parindent=0in
+\input{testpoints}
+
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\argmax}{\mathop{\arg\max}}
+\newcommand{\deriv}[1]{\frac{\partial}{\partial {#1}} }
+\newcommand{\dsep}{\mbox{dsep}}
+\newcommand{\Pa}{\mathop{Pa}}
+\newcommand{\ND}{\mbox{ND}}
+\newcommand{\De}{\mbox{De}}
+\newcommand{\Ch}{\mbox{Ch}}
+\newcommand{\graphG}{{\mathcal{G}}}
+\newcommand{\graphH}{{\mathcal{H}}}
+\newcommand{\setA}{\mathcal{A}}
+\newcommand{\setB}{\mathcal{B}}
+\newcommand{\setS}{\mathcal{S}}
+\newcommand{\setV}{\mathcal{V}}
+\DeclareMathOperator*{\union}{\bigcup}
+\DeclareMathOperator*{\intersection}{\bigcap}
+\DeclareMathOperator*{\Val}{Val}
+\newcommand{\mbf}[1]{{\mathbf{#1}}}
+\newcommand{\eq}{\!=\!}
+\usepackage[usenames,dvipsnames]{color}
+\newcommand{\bto}[1]{\textcolor{Bittersweet}{[#1 -BTO]}}
+
+\begin{document}
+
+{\centering
+  \rule{6.3in}{2pt}
+  \vspace{1em}
+  {\Large
+    CS688: Graphical Models - Spring 2017 \\
+    Assignment 1\\
+  }
+  \vspace{1em}
+  Assigned: Tuesday, Feb 7. Due: Tuesday, Feb 21 at 1:00 \\
+  \vspace{0.1em}
+  \rule{6.3in}{1.5pt}
+}
+\vspace{1pc}
+
+
+\textbf{General Instructions:} Please turn in two items: (1) A report with your answers, due at the start of lecture, and (2) a zip file with your code, uploaded to Moodle.
+
+Submit a report with the answers to each question at the start of class on the date the assignment is due. You are encouraged to typeset your solutions. To help you get started, the full \LaTeX source of the assignment is included with the assignment materials. For your assignment to be considered ``on time'', you must upload a zip file containing all of your code to Moodle by the due date. Make sure the code is sufficiently well documented that it's easy to tell what it's doing. You may use any programming language you like. For this assignment, you may not use existing code libraries for Bayesian network modeling, learning or inference. If you think you've found a bug with the data or an error in any of the assignment materials, please post a question to the Piazza discussion forum. Make sure to list in your report any outside references you consulted (books, articles, web pages, etc.) and any students you collaborated with.\\ 
+
+\textbf{Academic Honesty Statement:} You are encouraged to 
+work with other students to understand the material, but not to share solutions.
+Copying solutions from external
+sources (books, web pages, etc.) or other students is considered
+cheating, and so is sharing your solutions.  
+Please see the Course Policies listed in the syllabus.  \\
+
+\textbf{Introduction:} In this assignment, you will experiment with different aspects of modeling, learning, and applying a Bayesian network to answer probability queries. This assignment focuses on the heart disease diagnosis domain and uses part of a real clinical data set. \\
+
+\textbf{Data Set:} The data set consists of 9 variables as described below. The number of each variable corresponds to its column number in the data set files. There are five sets of training and test data files in standard comma-separated-value (CSV) format. The files are named \textit{data-train-i.txt} and \textit{data-test-i.txt} for $i$ from $1$ to $5$.\\
+
+\begin{center}
+\begin{tabular}{|c|c|c|l|}\hline
+Number & Name & Description & Values\\ \hline\hline
+1 & A   &  Age          & 1:$<45$, 2: $45-55$, 3:$\geq 55$\\ \hline
+2 & G   &  Gender                  & 1:Female, 2:Male;\\ \hline
+3 & CP  &  Chest Pain & 1:Typical, 2:Atypical, 3:Non-Anginal, 4:None\\ \hline
+4 & BP  &  Blood Pressure          & 1:Low, 2:High\\ \hline
+5 & CH  &  Cholesterol             & 1:Low, 2:High\\ \hline
+6 & ECG &  Electrocardiograph      & 1:Normal, 2:Abnormal\\ \hline
+7 & HR  &  Exercise Heart Rate     & 1:Low, 2:High\\ \hline
+8 & EIA &  Exercise Induced Angina & 1:No, 2:Yes\\ \hline
+9 & HD  & Heart Disease            & 1:No, 2:Yes\\ \hline
+\end{tabular}
+\end{center}
+\vspace{1em}
+
+\newpage
+
+\textbf{Model: } We will consider applying a Bayesian network 
+with the following structure to the data set.\\
+
+\begin{center}
+    \includegraphics[scale=0.5,trim=10mm 10mm 10mm 10mm,clip]{bn.pdf}
+\end{center}
+
+\begin{problem}{10} \textbf{Factorization:} Write down the factorization of the Bayesian network joint distribution implied by the structure shown above. 
+
+\fbox{\begin{minipage}{42.5em}
+
+\end{minipage}}
+
+\end{problem}
+
+
+\begin{problem}{10} \textbf{Likelihood Function:} Using the notation for the parameters of CPTs introduced in Lecture 4 (ie: $P_{\theta}(HD=hd|CH=ch,BP=bp)=\theta^{HD}_{hd|ch,bp}$), write down the log likelihood of the Bayesian network model as a function of the parameters $\theta$ given $N$ data cases.
+\end{problem}
+
+\begin{problem}{15} \textbf{Maximum Likelihood Estimates:} Using the notation for the parameters of CPTs introduced in lecture, derive the maximum likelihood estimate for the parameter $\theta^{HR}_{L|1,Y}$ starting from the log likelihood function.  Be sure to account for the sum-to-one constraint $\sum\limits_{hr\in\{L,H\}} \theta^{HR}_{hr|1,Y}=1$.  Show all of your work.
+\end{problem}
+
+\begin{problem}{15} \textbf{Learning:} Implement the maximum likelihood parameter estimates for all CPTs in the model. For this question, run your code on the data in the \textit{first training data set only} to compute the maximum likelihood parameter estimates for each CPT in the model. Report the maximum likelihood values you computed for each of the following CPTs:\\
+	
+\textbf{(a)} $P_{\theta}(A)$\\
+\textbf{(b)} $P_{\theta}(BP|G)$\\
+\textbf{(c)} $P_{\theta}(HD|BP,CH)$\\
+\textbf{(d)} $P_{\theta}(HR|A,HD)$\\
+
+You may report the values of the above CPTs using the provided template \textit{params.pdf}. Or, you may also write code to output the CPTs, which is strongly recommended. However, make sure to list the CPTs in your report in the order they appear in the supplied template. Also make sure to list the configurations within each CPT in the same order that they appear in the template. This is to facilitate grading. 
+\end{problem}
+
+\begin{problem}{15} \textbf{Probability Queries:}
+For each of the two queries below, first show how the query can be expressed in terms of the factorized joint distribution for the Bayesian network. Simplify the expressions wherever possible using the conditional independence properties of the network structure. Finally, use the parameters obtained in the previous question (first training set file only) to compute the distribution over the query variables. Display the result using a table or a bar chart. Note that there is an unobserved variable in the second query.\\
+
+\textbf{(a)} {\footnotesize $P(CH|A=2,G=M,CP=None,BP=L,ECG=Normal,HR=L,EIA=No,HD=No)$}\\
+\textbf{(b)} {\footnotesize $P(BP|A=2,CP=Typical,CH=H,ECG=Normal,HR=H,EIA=Yes,HD=No)$}
+
+\end{problem}
+
+\begin{problem}{20} \textbf{Classification:}
+In this question, we will assess the ability of the model to correctly predict the occurrence of heart disease given the values of all of the other variables in the network. Perform the following steps:\\
+
+\textbf{(a)} Train the network on each of the five training data files, obtaining five sets of parameters. There is nothing to report for this step. \\
+
+\textbf{(b)} Write down the probability distribution over the heart disease variable (HD) given the remaining variables. Simplify the result using the conditional independence properties of the network. \\
+
+\textbf{(c)} We will follow a standard five-fold-cross validation protocol to assess the performance of the model. For each test file $i$ and each test data case $n$, compute the most likely value of the heart disease variable $\hat{hd}_{ni}$ using the parameters learned with training file $i$. For each test file $i$, compute the prediction accuracy $A_i$ as the number of cases correctly predicted divided by the total number of cases. Lastly, compute the mean prediction accuracy over the five test files (the average of $A_1$ to $A_5$) and the standard deviation of the prediction accuracy over the five test files (the standard deviation of $A_1$ to $A_5$). Report the mean and the standard deviation of the prediction accuracy.
+\end{problem}
+
+
+\begin{problem}{15} \textbf{Modeling:} Design your own network structure for the heart disease domain. \\
+
+\textbf{(a)} Draw the graphical model for your network. \\
+
+\textbf{(b)} Write down the factorization for your network.\\
+
+\textbf{(c)} Briefly describe some of the choices that went into the design of your network structure.\\
+
+\textbf{(d)} Use your network to repeat the heart disease classification experiment and report the mean and standard deviation of your network. Can you find a network with better accuracy than the given network?
+\end{problem}
+
+\showpoints
+\end{document} 
